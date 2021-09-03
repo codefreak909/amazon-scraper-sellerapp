@@ -17,8 +17,6 @@ func GetProductStore(c *mongo.Collection) Store {
 }
 
 func (ps *productStore) Create(ctx context.Context, product models.ProductDocument) error {
-	log.Println(ps.collection.Name())
-
 	result, err := ps.collection.InsertOne(ctx, product)
 	if err != nil {
 		log.Println("Error inserting document: ", err.Error())

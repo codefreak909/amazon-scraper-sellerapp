@@ -25,8 +25,6 @@ func (pc *productCaller) Call(document *models.ProductDocument) error {
 		return err
 	}
 
-	log.Println("BODY ", string(body))
-
 	req, err := http.NewRequest(http.MethodPost, pc.URL, bytes.NewBuffer(body))
 	if err != nil {
 		log.Println("Error in creating Request: ", err.Error())
