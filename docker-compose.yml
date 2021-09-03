@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  scrape_api:
+    build: ./ScraperAPI/
+    ports:
+      - 8080:8080
+    environment: 
+      PRODUCT_STORE_API_URL: "http://store_api:8000/product"
+    volumes:
+      - ./ScraperAPI:/app
+    depends_on: 
+      - store_api
+    links:
+      - store_api
+    networks: 
+      - local
+
+  store_api:
+    build: ./StoreAPI/
+    ports:
+      - 8000:8000
+    environment: 
+      MONGO_HOST: "mongo"
+      MONGO_PORT: "27017"
+    volumes:
+      - ./StoreAPI:/app
+    depends_on: 
+      - mongo
+    links:
+      - mongo
+    networks: 
+      - local   
+  
+  mongo:
+    image: mongo
+    ports: 
+      - 27017:27017
+    networks: 
+      - local
+      
+networks: 
+  local:
+    driver: bridge
